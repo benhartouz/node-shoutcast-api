@@ -210,6 +210,24 @@ class SHOUTcastAPI {
   getPlaylistUrlByStationId(base, stationId) {
     return tuneUrl + base + '?id=' + stationId
   }
+  getUrlStream(url){
+        request.get(
+            {
+                url: url,
+                gzip: true,
+            },
+            function (err, res, body) {
+                if (!err && res.statusCode == 200) {
+                    var regex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/;
+                    var matchs = body.match(regex);
+                    var streamurl = matchs[0];
+                    opts.success(streamurl)
+                } else {
+                    opts.error(err)
+                }
+            }
+        );
+  }
 
 }
 
